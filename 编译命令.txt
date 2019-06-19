@@ -1,1 +1,4 @@
 gcc russia.c -lpthread -lncurses
+
+Linux Cº¯ÊýµØÖ·
+http://www.mysqlab.net/documents/linux_c/
