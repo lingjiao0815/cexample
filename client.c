@@ -8,8 +8,23 @@
 #include<sys/socket.h>
 #include<netinet/in.h>
 #include<arpa/inet.h>
+#include <pthread.h>
 #define PORT 1234
 //#define SERVER_IP "192."
+
+void *data_recv_thread(void *arg)
+{
+	char buffer[256] = {0};
+	int *s = (int *)arg;
+
+	while(1){
+
+		bzero(buffer, sizeof(buffer));
+		if(read(*s,buffer,sizeof(buffer)) > 0){
+			printf("recv :%s\n", buffer);
+		}
+	}
+}
 
 int main(int argc, char *argv[])
 {
@@ -37,7 +52,9 @@ int main(int argc, char *argv[])
 		perror("connect");
 		exit(1);
 	}
-	
+
+	pthread_t thread;
+	pthread_create(&thread, NULL, data_recv_thread, (void *)&s);
 
 	while(1){
 		bzero(buffer,sizeof(buffer));
@@ -47,13 +64,7 @@ int main(int argc, char *argv[])
 		if(send(s,buffer,sizeof(buffer),0)<0){
 			perror("send");
 			exit(1);
-		}
-
-		bzero(buffer, sizeof(buffer));
-		if(read(s,buffer,sizeof(buffer)) > 0){
-			printf("recv :%s\n", buffer);
-		}
-		
+		}		
 	}
 }
 

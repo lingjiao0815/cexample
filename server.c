@@ -7,10 +7,25 @@
 #include <stdlib.h>
 #include <string.h>
 #include <strings.h>
-
+#include <pthread.h>
 
 #define PORT 1234
 #define MAXSOCKFD 10
+
+void *data_recv_thread(void *arg)
+{
+	char buffer[256] = {0};
+	int *s = (int *)arg;
+
+	while(1){
+
+		bzero(buffer, sizeof(buffer));
+		if(read(*s,buffer,sizeof(buffer)) > 0){
+			printf("recv :%s\n", buffer);
+		}
+	}
+}
+
 
 int main()
 {
@@ -50,16 +65,16 @@ int main()
 	if((newsockfd = accept (sockfd,(struct sockaddr *)&addr,&addr_len))<0){
 		perror("accept");
 	}
+
+	
+	pthread_t thread;
+	pthread_create(&thread, NULL, data_recv_thread, (void *)&newsockfd);
+	
 	printf("connect from %s\n",inet_ntoa(addr.sin_addr));
 	while(1){
 		bzero(buffer, sizeof(buffer));
 		gets(buffer);
 		write(newsockfd,buffer,strlen(buffer));
-		
-		bzero(buffer, sizeof(buffer));
-		if(read(newsockfd,buffer,sizeof(buffer)) > 0){
-			printf("recv :%s\n", buffer);
-		}			
 	}
 }
 
