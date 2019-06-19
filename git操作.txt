@@ -1,0 +1,18 @@
+创建SSH KEY
+ssh-keygen -t rsa -C "51503641@qq.com"
+cd ~/.ssh
+cat id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWu298fnV/OyMjbFkR0xyMhAxPnCrF2YgqMVKv25vxakK5AFz+iiA+Eex8R9te8UfgphwHerP8yAzG8qydjW4/ci4S2XBNYZ+ZvU/RFj0gWuJlEhnbIaEONRAXJtl9mYIDbsTyKd/XEZ5sRrRCy7Kp5O5DtcFY07Iq1Y9JHcKhsEowTdU/k0g0rLnnyIcimcrcEEuaBeHlgQxfeXu/ni6Gk43DeeCFUkV2vFwGfBXFJW04UASWuaJaCxoyKkzumhgA2yQwUog5Cty4bfzx6fjIvU/1Us5b7RyadSEAf11pP/Xhpe2DTE0YgXgU4i3H2i6aHFXR7QwXQ46cyJxAYND9 51503641@qq.com
+
+复制内容粘贴到如下网站
+https://github.com/settings/ssh/new
+
+
+
+本地代码提交到github
+git clone git@github.com:lingjiao0815/cexample.git
+cd cexample
+git add . -A
+git commit -m "FEATURE 创建版本，视频进度3.6，进行api设计与分层"
+git remote add videoserver git@github.com:lingjiao0710/videoServer.git
+git push videoserver --all -v
